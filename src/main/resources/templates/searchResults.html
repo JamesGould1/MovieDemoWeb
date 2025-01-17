@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Search Results</title>
+    <link rel="stylesheet" href = "/css/style.css">
 </head>
 <body>
 <h1>Search Results</h1>
 
+<a href="/index">Go back to Search</a>
 <div>
     <ul>
-        <li th:each="film : ${films}" th:text="${film.primaryTitle}">Movie Title</li>
+        <li th:each="film : ${films}">
+            <span th:text="${film.primaryTitle}">Movie Title</span>
+            <span th:text="${film.averageRating}">Rating</span>
+            <span th:text="${film.numVotes}">Votes</span>
+        </li>
     </ul>
 </div>
 
-<a href="/index">Go back to Search</a>
 </body>
 </html>

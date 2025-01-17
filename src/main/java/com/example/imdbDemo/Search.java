@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,31 +34,23 @@ public class Search {
         Optional<Film> optionalFilm = repository.findById(id);
         Film thisFilm = optionalFilm.orElse(null);
         String thisFilmTitle = thisFilm.getPrimaryTitle();
+        String thisFilmRating = String.valueOf(thisFilm.getAverageRating());
+        String returnFilm = thisFilmTitle + " : " + thisFilmRating;
 
-        /*
-        List<Film> films = repository.findByPrimaryTitle(id);
-        List<String> listOfFilmTitle = new ArrayList<>();
-        films.forEach(film -> listOfFilmTitle.add(film.getPrimaryTitle()));
-        model.addAttribute("filmTitles", listOfFilmTitle);
-        */
-
-        return thisFilmTitle;
+        return returnFilm;
     }
 
-    @ResponseBody
+
     @GetMapping("/search/byTitle")
-    public List<String> searchForMovieByTitle(
+    public String searchForMovieByTitle(
             @RequestParam(value = "title", defaultValue = "") String title,
             Model model) {
         logger.info("Searching for " + title);
-        List<Film> searchedFilms = repository.findByPrimaryTitle(title);
+        List<Film> searchedFilms = repository.findByPrimaryTitleContainingIgnoreCase(title);
         logger.info("Found " + searchedFilms.size() + " results");
-        List<String> searchedFilmTitles = new ArrayList<>();
-        for (Film film : searchedFilms) {
-            String filmTitle = film.getPrimaryTitle();
-            searchedFilmTitles.add(filmTitle);
-        }
+        searchedFilms.sort(Comparator.comparingInt(Film::getNumVotes).reversed());
 
-        return searchedFilmTitles;
+        model.addAttribute("films", searchedFilms);
+        return "searchResults";
     }
 }

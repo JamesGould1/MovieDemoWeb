@@ -1,5 +1,6 @@
 package com.example.imdbDemo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
@@ -11,7 +12,7 @@ public class Film {
 
     @Id
     private String id;
-    @Lob
+    @Column (nullable = false, length = 300)
     private String primaryTitle;
     private int startYear;
     private Integer runtimeMinutes;
@@ -67,6 +68,22 @@ public class Film {
                 ", primaryTitle='" + primaryTitle + '\'' +
                 ", startYear='" + startYear + '\'' +
                 '}';
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public int getNumVotes() {
+        return numVotes;
+    }
+
+    public void setNumVotes(int numVotes) {
+        this.numVotes = numVotes;
     }
 }
 
