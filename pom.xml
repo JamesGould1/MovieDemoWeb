@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>imbdDemo</artifactId>
+	<artifactId>imdbDemo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>imbdDemo</name>
 	<description>Demo project with imbd DB</description>
